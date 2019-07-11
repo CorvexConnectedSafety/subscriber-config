@@ -34,16 +34,17 @@ echo "creating "$scriptscustomer
 cp -a /var/www/db1/MASTER $scriptscustomer
 echo $scriptscustomer " created"
 
-# to-do: run the cgi script and capture the script's output
-# parse that output and grab the subscriber ID.
-# Stick the subscriber ID into varibale "sid"
+# Note to anyone using this script: Change the path/to/addSubscriber.cgi in order for this to work properly. 
 
 echo "Creating database for "$realname
-perl /home/dib/scripts-testing/addSubscriber.cgi name=$realname prefix=$subscriber
+perl /home/gjones/scripts-testing/addSubscriber.cgi name=$realname prefix=$subscriber | | sed 1d | jq -r '.subscriber[].subscriberID' > /tmp/sid.txt
+read sid < /tmp/sid.txt
 
 # change the value of the subscriberID and servicepath in localconfig.ini
 
 sed -i 's/scripts-CUSTOMER/'$subpath'/g' localconfig.ini
 sed -i 's/NNN/'$sid'/g' localconfig.ini
 
+# clean up the file from the temp directory
 
+rm /tmp/sid.txt
