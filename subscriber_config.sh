@@ -63,3 +63,7 @@ sed -i 's/CUSTOMER/'$subscriber'/g' /var/www/lsync.conf.d/$subscriber
 sed -i 's/NNNNNN/'$fullsid'/g' /var/www/lsync.conf.d/$subscriber
 
 echo "Backends setup for "$realname" completed. Please restart lsyncd."
+echo "The following will be needed for the middleware setup script:"
+echo "Subscriber name = "$subscriber
+echo "Subscriber ID (sid) = "$sid
+# may or may not need the realname for the next script. 
